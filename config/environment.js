@@ -6,6 +6,8 @@ module.exports = function(environment) {
     environment: environment,
     baseURL: '/fireplace-app',
     locationType: 'auto',
+    contentSecurityPolicy: {'img-src': "'self' " +
+                                       "m.fmi.fi "},
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build

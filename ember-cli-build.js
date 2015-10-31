@@ -39,12 +39,22 @@ module.exports = function(defaults) {
       destDir: '/fonts'
   });
 
-  // --- Third-party Bootrap3 Themes ---
-  // Darkly Theme by bootswatch.com
+  // --- Third-party Bootrap-3 themes dependencies ---
+  // Darkly Theme by www.bootswatch.com
   app.import('app/styles/darkly-theme-bootstrap-bootswatch.com.css');
+
+  // --- SVG assests ---
+  var svgAssests = pickFiles('app/svgs', {
+        srcDir: '/',
+        files: ['clock-n-temperature.svg'],
+        destDir: '/assets'
+  });
+
+  // -- Snap.svg - SVG graphics library (https://github.com/adobe-webplatform/Snap.svg) dependencies ---
+  app.import('bower_components/Snap.svg/dist/snap.svg.js');
 
   return mergeTrees([app.toTree(),
                      bootstrapMap,
-                     bootstrapFonts]);
-
+                     bootstrapFonts,
+                     svgAssests]);
 };
