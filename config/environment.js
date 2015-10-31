@@ -4,7 +4,7 @@ module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'fireplace-app',
     environment: environment,
-    baseURL: '/',
+    baseURL: '/fireplace-app',
     locationType: 'auto',
     EmberENV: {
       FEATURES: {
@@ -40,7 +40,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-
+    ENV.baseURL = '/fireplace-app/';
   }
 
   return ENV;
