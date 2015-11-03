@@ -2,13 +2,11 @@
 
 ClockNOutdoortemperatureforecastComponent = Ember.Component.extend (
 
-  attributeBindings: ['weatherDataset', 'fireMakingPlan']
+  attributeBindings: ['weatherDataset', 'onUpdateWeather', 'fireMakingPlan']
 
   # ----------------
   # Declare: Globals
   # ----------------
-  _theController: null
-
   _temperatures_OrderedByAscendingHours: []
 
   _alltemperatureText_SvgObjs: null
@@ -19,10 +17,6 @@ ClockNOutdoortemperatureforecastComponent = Ember.Component.extend (
   # Declare: Component Specific Functions
   # -------------------------------------
   didInsertElement: ->
-
-    # Get controller
-    @set('_theController', @get('_controller'))
-
     # Tranform weather dataset
     @_tranform_WeatherDataset()
 
@@ -110,7 +104,7 @@ ClockNOutdoortemperatureforecastComponent = Ember.Component.extend (
     # --- Update all Temperatures ---
     # Update temperature every 30mins, starting at 3mins past the hour
     if (minutes == 3 and seconds == 0) or (minutes == 33 and seconds == 0)
-        @_theController.send('updateModel')
+        @get('onUpdateWeather')()
     ###
     if seconds == 1
         #@_updateAllMockTemperatures()

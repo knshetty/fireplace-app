@@ -15,6 +15,9 @@ DashboardController = Ember.Controller.extend (
     # --- Declare Event Handlers ---
     # ------------------------------
     actions:
+        updateModel: ->
+            @get('theRoute').send('updateModel')
+
         showPlan: ->
             @set('firePlan', {
                     makeFire: true

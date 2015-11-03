@@ -5489,6 +5489,8 @@ DashboardRoute = Ember.Route.extend (
 
     setupController: (controller, model) ->
 
+        controller.set('theRoute', @)
+
         controller.set('model', model)
 
         # ----------------------------------------
@@ -5526,7 +5528,6 @@ DashboardRoute = Ember.Route.extend (
 
     actions:
         updateModel: ->
-            console.log '--- EventTriggered: DashboardRoute >> Action >> updateModel ---'
             @refresh()
 
 )
