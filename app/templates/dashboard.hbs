@@ -5,10 +5,98 @@
     <div class="row">
 
         <div class="col-md-6">
-            {{clock-n-outdoortemperatureforecast}}
+            {{clock-n-outdoortemperatureforecast
+                weatherDataset=model
+                fireMakingPlan=firePlan}}
+        </div>
+
+        <div class="col-md-4">
+            <div class="panel panel-default">
+
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Next Fire
+                    </h3>
+                </div>
+
+                <div class="panel-body">
+
+                    <div class="form-group">
+                        {{time-picker-clock
+                            valueholder=previouslyMadeFire_Hour
+                            placeholder="Previous Fire? (Optional)"
+                            disableflag=planEntry}}
+                    </div>
+
+                    <p>
+                        {{#unless planEntry}}
+                            <a  class="btn btn-primary btn-lg"
+                                {{action "showPlan"}}>
+                                <span class="glyphicon glyphicon-scale" aria-hidden="true"></span>
+                                Show Plan
+                            </a>
+                        {{/unless}}
+
+                        {{#if planEntry}}
+                            <a  class="btn btn-primary btn-lg"
+                                {{action "clearPlan"}}>
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                Clear Plan
+                            </a>
+
+                        {{/if}}
+                    </p>
+
+                </div>
+            </div>
+
+            {{#unless planEntry}}
+
+                <blockquote class="pull-left">
+                    <p><font size="8">No Plans</font></p>
+                </blockquote>
+
+            {{/unless}}
+
+            {{#if firePlan.makeFire}}
+
+                <blockquote class="pull-left">
+
+                    <p>
+                        <font size="8" color="#e17d5a">{{firePlan.msg}}</font>
+                        {{countdown-timer endDate=countdownEndDateime}}
+                    </p>
+
+                    <p><font size="8">{{firePlan.woodCount}}</font> logs</p>
+
+                    <p><font size="6">{{firePlan.startTime}}</font> start</p>
+
+                </blockquote>
+
+            {{else if planEntry}}
+
+                <blockquote class="pull-left">
+                    <p><font size="8">{{firePlan.msg}}</font></p>
+                </blockquote>
+
+            {{/if}}
+
         </div>
 
     </div>
+
+
+
+    <div class="row">
+        <div class="col-md-10">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    Weather Highlights
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 </div>
 

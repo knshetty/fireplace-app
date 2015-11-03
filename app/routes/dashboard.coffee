@@ -5403,7 +5403,7 @@ DashboardRoute = Ember.Route.extend (
         # Weather data aquisition procedure/configuration
         # For Simulation mode to work set to >> true
         # For RESTful-Resource to work set to >> false
-        simulationMode = false
+        simulationMode = true # Default: false
 
         # City of interest >> Tampere >> 634963
         tampere_LocationId = 634963
@@ -5526,6 +5526,7 @@ DashboardRoute = Ember.Route.extend (
 
     actions:
         updateModel: ->
+            console.log '--- EventTriggered: DashboardRoute >> Action >> updateModel ---'
             @refresh()
 
 )

@@ -53,6 +53,17 @@ module.exports = function(defaults) {
   // -- Snap.svg - SVG graphics library (https://github.com/adobe-webplatform/Snap.svg) dependencies ---
   app.import('bower_components/Snap.svg/dist/snap.svg.js');
 
+  // -- clockpicker - Time picker jQuery/Bootstrap UI component library (https://github.com/weareoutman/clockpicker) dependencies ---
+  // Note! Bower package with tag#0.0.7 does not have the callbacks yet (https://github.com/weareoutman/clockpicker/issues/29)
+  // Work-around for this issue:
+  //    *Option 1: bower uninstall ng-clockpicker --save (Will pull the package from >> git://github.com/webdeskltd/clockpicker.git)
+  //    Option 2: bower install 'https://github.com/weareoutman/clockpicker.git#gh-pages'
+  app.import('bower_components/clockpicker/dist/bootstrap-clockpicker.min.css');
+  app.import('bower_components/clockpicker/dist/bootstrap-clockpicker.min.js');
+
+  // -- countdown - Countdown-Timee jQuery UI component library (https://github.com/rendro/countdown) dependencies ---
+  app.import('bower_components/countdown/dest/jquery.countdown.min.js');
+
   return mergeTrees([app.toTree(),
                      bootstrapMap,
                      bootstrapFonts,

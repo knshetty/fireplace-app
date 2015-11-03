@@ -2,16 +2,18 @@
 
 ClockNOutdoortemperatureforecastComponent = Ember.Component.extend (
 
+  attributeBindings: ['weatherDataset', 'fireMakingPlan']
+
   # ----------------
   # Declare: Globals
   # ----------------
   _theController: null
 
-  _weatherdata: null
-
   _temperatures_OrderedByAscendingHours: []
 
   _alltemperatureText_SvgObjs: null
+
+  _makeFireIndicator_SvgObj: null
 
   # -------------------------------------
   # Declare: Component Specific Functions
@@ -21,8 +23,8 @@ ClockNOutdoortemperatureforecastComponent = Ember.Component.extend (
     # Get controller
     @set('_theController', @get('_controller'))
 
-    # Extract & Tranform weather data
-    @_extractAndTranform_WeatherData()
+    # Tranform weather dataset
+    @_tranform_WeatherDataset()
 
     # Create snap.svg context
     @_snapsvgInit()
@@ -45,6 +47,14 @@ ClockNOutdoortemperatureforecastComponent = Ember.Component.extend (
       for i in [1..12]
         temperatureTextObjs.push(f.select("#tmp_#{i}"))
       context.set('_alltemperatureText_SvgObjs', temperatureTextObjs)
+
+      # --- Get Make-Fire-Indicator svg objects ----
+      makeFireIndicator = f.select("#start-fire-indicator")
+      makeFireIndicator.attr({opacity: 0}) # Hide
+      context.set('_makeFireIndicator_SvgObj', makeFireIndicator)
+
+      # --- Make-Fire-Indicator Animation ---
+      context._setMakeFireIndicatorObj()
 
       # Update all temperatures
       context._updateAllTemperatures()
@@ -98,6 +108,7 @@ ClockNOutdoortemperatureforecastComponent = Ember.Component.extend (
     futureRing.transform('r' + ((hours*30) - offset_FutureRing + (minutes/2)) + futureRingCenterPosition)
 
     # --- Update all Temperatures ---
+    # Update temperature every 30mins, starting at 3mins past the hour
     if (minutes == 3 and seconds == 0) or (minutes == 33 and seconds == 0)
         @_theController.send('updateModel')
     ###
@@ -111,17 +122,14 @@ ClockNOutdoortemperatureforecastComponent = Ember.Component.extend (
         context._animateTime(secondNeedle, minuteNeedle, hourNeedle, futureRing)
     ), 1000
 
-  _extractAndTranform_WeatherData: ->
-
-    # Extract: Get weather data
-    @set('_weatherdata', @_theController.get('model'))
+  _tranform_WeatherDataset: ->
 
     # --- Transform: Arrange forecasted temperatures in ascending hourly order ---
     # Sort future temperatures
-    for f in @_weatherdata.forecast
+    for f in @weatherDataset.forecast
         @_insertTemperature_InAscendingHourlyOrder(f.localtime, f.temperature)
     # Sort current temperature
-    @_insertTemperature_InAscendingHourlyOrder(@_weatherdata.current.observationallocaltime, @_weatherdata.current.temperature)
+    @_insertTemperature_InAscendingHourlyOrder(@weatherDataset.current.observationallocaltime, @weatherDataset.current.temperature)
 
   _insertTemperature_InAscendingHourlyOrder: (localtime, temperature) ->
 
@@ -162,14 +170,33 @@ ClockNOutdoortemperatureforecastComponent = Ember.Component.extend (
 
     temperatureTextObj.selectAll('tspan')[0].node.textContent = text
 
+  _setMakeFireIndicatorObj: ->
+    if @fireMakingPlan.makeFire
+        @_makeFireIndicator_SvgObj.attr({opacity: 1}) # Unhide
+        fireMakingHour = @fireMakingPlan.startTime.split(':')[0].substring(0,2)
+        @_makeFireIndicator_SvgObj.transform('r' + ((fireMakingHour*30)) + ',200,200')
+    else
+        @_makeFireIndicator_SvgObj.attr({opacity: 0}) # Hide
+
+  # ------------------------------
+  # --- Declare Event Handlers ---
+  # ------------------------------
+  ###
+  actions:
+  ###
+
   # -------------------------
   # --- Declare Observers ---
   # -------------------------
   weatherdataChanged: ( ->
-    @_extractAndTranform_WeatherData()
+    @_tranform_WeatherDataset()
     if @_alltemperatureText_SvgObjs
         @_updateAllTemperatures()
-  ).observes('_theController.model')
+  ).observes('weatherDataset')
+
+  fireMakingPlanChanged: ( ->
+    @_setMakeFireIndicatorObj()
+  ).observes('fireMakingPlan')
 
 )
 
