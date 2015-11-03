@@ -22,10 +22,7 @@ DashboardController = Ember.Controller.extend (
                     startTime: '9:00'
                     woodCount: 9})
 
-            timeNow = new Date()
-            threeHoursInTheFuture = timeNow.getSeconds() + 10
-            timeNow.setSeconds(threeHoursInTheFuture)
-            @set('countdownEndDateime', timeNow.toJSON())
+            @set('countdownEndDateime', @_generateEndDatetime_JSON_IncBySeconds(5))
 
             ###
             @set('firePlan', {
@@ -35,12 +32,24 @@ DashboardController = Ember.Controller.extend (
                     woodCount: null})###
 
         clearPlan: ->
-            console.log '--- DashboardController: clearPlan Triggered---'
             @set('firePlan', {
                 makeFire: null
                 msg: null
                 startTime: null
                 woodCount: null})
+
+    # -----------------------------
+    # --- Declare Local Methods ---
+    # -----------------------------
+    _generateEndDatetime_JSON_IncByHours: (hoursInFuture) ->
+        timeNow = new Date()
+        timeNow.setHours(timeNow.getHours() + hoursInFuture)
+        return timeNow.toJSON()
+
+    _generateEndDatetime_JSON_IncBySeconds: (secondsInFuture) ->
+        timeNow = new Date()
+        timeNow.setSeconds(timeNow.getSeconds() + secondsInFuture)
+        return timeNow.toJSON()
 
     # -----------------------------------
     # --- Declare Computed Properties ---
