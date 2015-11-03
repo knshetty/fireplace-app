@@ -11,10 +11,14 @@ CountdownTimerComponent = Ember.Component.extend(
     # ------------------------
     _countdownTimer : null
 
+    _theController: null
+
     # -------------------------------------
     # Declare: Component Specific Functions
     # -------------------------------------
     didInsertElement: ->
+
+        @set('_theController', @get('_controller'))
 
         context = @
         @_countdownTimer = @$().countdown({
@@ -24,6 +28,10 @@ CountdownTimerComponent = Ember.Component.extend(
                     @leadingZeros(data.hours, 2) + " : " +
                     @leadingZeros(data.min, 2) + " : " +
                     @leadingZeros(data.sec, 2))
+                onEnd: ->
+                    context.$(@el).addClass('ended')
+                    console.log 'EEEEEEEEEEEEEE'
+                    context._theController.send('clearPlan')
             })
 
     # --------------------------

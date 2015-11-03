@@ -23,8 +23,8 @@ DashboardController = Ember.Controller.extend (
                     woodCount: 9})
 
             timeNow = new Date()
-            threeHoursInTheFuture = timeNow.getHours() + 3
-            timeNow.setHours(threeHoursInTheFuture)
+            threeHoursInTheFuture = timeNow.getSeconds() + 10
+            timeNow.setSeconds(threeHoursInTheFuture)
             @set('countdownEndDateime', timeNow.toJSON())
 
             ###
@@ -35,6 +35,7 @@ DashboardController = Ember.Controller.extend (
                     woodCount: null})###
 
         clearPlan: ->
+            console.log '--- DashboardController: clearPlan Triggered---'
             @set('firePlan', {
                 makeFire: null
                 msg: null
