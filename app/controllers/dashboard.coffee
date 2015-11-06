@@ -111,7 +111,7 @@ DashboardController = Ember.Controller.extend (
         # ------------------------
         # Trigger Settings
         # ------------------------
-        temperatureThreshold = 6 # Trigger-threshold >> Over this threshold, indicate's low indoor temperature
+        temperatureThreshold = 5 # Trigger-threshold >> Over this threshold, indicate's low indoor temperature
         humidityThreshold = 79.5 # Trigger-threshold >> Over this threshold, indicate's high relative humidity
         hourlyForecastsSize = 3 # Falling-Edge indicator threshold >> Sequence of hourly forecasts, that will determined as a falling edge indicator
         firewoodToTemperatureRatio = '10:2' # Base-Model to calculate quantity-of-firewood to burn
