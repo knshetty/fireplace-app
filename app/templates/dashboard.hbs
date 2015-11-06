@@ -17,42 +17,51 @@
             <div class="panel panel-default">
 
                 <div class="panel-heading">
-                    <h3 class="panel-title">
-                        Next Fire
-                    </h3>
+                    <div class="row">
+                        <div class="col-md-10">
+                            <h3 class="panel-title">
+                                Fire Log
+                            </h3>
+                        </div>
+                        <div class="col-md-1">
+                            <a  class="btn btn-primary btn-xs"
+                                {{action "updateModel"}}>
+                                <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="panel-body">
 
                     <div class="form-group">
 
-                        {{time-picker-clock
-                            valueholder=previouslyMadeFire_Hour
-                            placeholder="Previous Fire? (Optional)"
-                            disableflag=planEntry}}
+                        {{datetime-picker
+                             valueholder=previouslyMadeFire_Hour
+                             placeholder="Last Fire? (Optional)"}}
 
                     </div>
 
                     <p>
-                        {{#unless planEntry}}
-
-                            <a  class="btn btn-primary btn-lg"
-                                {{action "showPlan"}}>
-                                <span class="glyphicon glyphicon-scale" aria-hidden="true"></span>
-                                Show Plan
-                            </a>
-
-                        {{/unless}}
-
+                        <!--
                         {{#if planEntry}}
 
-                            <a  class="btn btn-primary btn-lg"
+                            <a  class="btn btn-primary"
                                 {{action "clearPlan"}}>
                                 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                 Clear Plan
                             </a>
 
+                        {{else}}
+
+                            <a  class="btn btn-primary"
+                                {{action "showPlan"}}>
+                                <span class="glyphicon glyphicon-scale" aria-hidden="true"></span>
+                                Show Plan
+                            </a>
+
                         {{/if}}
+                        -->
                     </p>
 
                 </div>
@@ -74,14 +83,26 @@
 
                     <p>
                         <font size="8" color="#e17d5a">{{firePlan.msg}}</font>
+                        <!--
                         {{countdown-timer
                             endDate=countdownEndDateime
                             onCountdownEnded=(action 'clearPlan')}}
+                        -->
                     </p>
 
-                    <p>
-                        <font size="8">{{firePlan.woodCount}}</font> logs
-                    </p>
+                    {{#if maxFireboxLoad}}
+
+                        <p>
+                            <font size="8">Firebox Full</font> logs
+                        </p>
+
+                    {{else}}
+
+                        <p>
+                            <font size="8">{{firePlan.woodCount}}</font> logs
+                        </p>
+
+                    {{/if}}
 
                     <p>
                         <font size="6">{{firePlan.startTime}}</font> start
@@ -95,6 +116,12 @@
                     <p>
                         <font size="8">{{firePlan.msg}}</font>
                     </p>
+
+                    <!-- p>
+                        {{countdown-timer
+                            endDate=countdownEndDateime
+                            onCountdownEnded=(action 'clearPlan')}}
+                    </p -->
                 </blockquote>
 
             {{/if}}

@@ -32,6 +32,7 @@ ClockNOutdoortemperatureforecastComponent = Ember.Component.extend (
 
       # --- Get Clock svg objects ----
       secondNeedle = f.select("#second")
+      secondNeedle.attr({opacity: 0}) # Hide
       minuteNeedle = f.select("#minute")
       hourNeedle = f.select("#hour")
 
@@ -81,9 +82,9 @@ ClockNOutdoortemperatureforecastComponent = Ember.Component.extend (
 
     # --- Second-Needle Animation ---
     # Move second-needle halfway
-    secondNeedle.transform('r' + (seconds*6-97) + clockCenterPosition)
+    #secondNeedle.transform('r' + (seconds*6-97) + clockCenterPosition)
     # Animate the second-needle to its resting position
-    secondNeedle.animate({transform: 'r' + (seconds*6-94) + clockCenterPosition}, 500, mina.elastic)
+    #secondNeedle.animate({transform: 'r' + (seconds*6-94) + clockCenterPosition}, 500, mina.elastic)
 
     # --- Minute-Needle Animation ---
     # Move minute-needle

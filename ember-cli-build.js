@@ -61,6 +61,11 @@ module.exports = function(defaults) {
   app.import('bower_components/clockpicker/dist/bootstrap-clockpicker.min.css');
   app.import('bower_components/clockpicker/dist/bootstrap-clockpicker.min.js');
 
+  // -- smalot-bootstrap-datetimepicker - DateTime picker jQuery/Bootstrap UI component library (https://github.com/smalot/bootstrap-datetimepicker) dependencies ---
+  app.import('bower_components/smalot-bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css');
+  app.import('bower_components/smalot-bootstrap-datetimepicker/css/datetimepicker.css'); //Note! Manually generated dependency file, build instructures here >> http://www.malot.fr/bootstrap-datetimepicker/#dependencies
+  app.import('bower_components/smalot-bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js');
+
   // -- countdown - Countdown-Timee jQuery UI component library (https://github.com/rendro/countdown) dependencies ---
   app.import('bower_components/countdown/dest/jquery.countdown.min.js');
 
