@@ -5,13 +5,13 @@ DashboardController = Ember.Controller.extend (
     # -----------------------
     # --- Declare Globals ---
     # -----------------------
-    previouslyMadeFire_Hour: null
+    previouslyMadeFire_Datetime: null
 
     firePlan: { makeFire: null,  msg: null, startTime: null, woodCount: null }
 
     countdownEndDateime: null
 
-    temperatureHourSeries: []
+    hourlyForecastedTemperatures: []
 
     # ------------------------------
     # --- Declare Event Handlers ---
@@ -35,7 +35,7 @@ DashboardController = Ember.Controller.extend (
     # -----------------------------
     _getPreviouslyMadeFireDatetimeAsValue: ->
         # --- Parse following datetime format: 15 - 05/11/2015 ---
-        timestampParts = @previouslyMadeFire_Hour.split(' - ')
+        timestampParts = @previouslyMadeFire_Datetime.split(' - ')
         hours = timestampParts[0].substring(0,2)
         day = timestampParts[1].substring(0,2)
         month = timestampParts[1].substring(3,5)
@@ -76,33 +76,37 @@ DashboardController = Ember.Controller.extend (
     ).observes('model')
 
     previouslyMadeFireChanged: ( ->
-        if (@previouslyMadeFire_Hour is null) or (@previouslyMadeFire_Hour)
+        if (@previouslyMadeFire_Datetime is null) or (@previouslyMadeFire_Datetime)
             @send('updateModel')
-    ).observes('previouslyMadeFire_Hour')
+    ).observes('previouslyMadeFire_Datetime')
 
     # -----------------------------------------
     # --- Declare Weather-Analytics Methods ---
     # -----------------------------------------
     generateFireMakingPlan: ->
-        # --- Trigger firemaking plan >> Only if previously-made-fire is older than 11hours --
-        if @previouslyMadeFire_Hour
-            timeNow = new Date().valueOf()
-            elevenHours = 39600000
+        timeNow = new Date().valueOf()
+        elevenHours = 39600000
+        twentytwoHours = elevenHours*2
+
+        # --- Trigger firemaking plan >> Plan-Type: Intraday-Starter Plan
+        if (@previouslyMadeFire_Datetime) and (timeNow <= (@_getPreviouslyMadeFireDatetimeAsValue() + twentytwoHours))
+            # --- Trigger firemaking plan >> Only if previously-made-fire is older than 11-hours and not more than 22-hours --
             if timeNow >= (@_getPreviouslyMadeFireDatetimeAsValue() + elevenHours)
-                console.log '>> Intraday Firemaking Plan ---'
-                extraFirewood = 0 # Due to intraday-start (i.e. 11hours gap between firemaking/heating)
+                console.log '>> Intraday Firemaking Plan: A ---'
+                extraFirewood = 0 # Due to intraday-start (i.e. 11-hours gap between firemaking/heating, however this gap is not more than 22-hours)
                 @planFireMaking(extraFirewood)
+            # --- Don't Trigger firemaking plan >> If previously-made-fire is less 11hours --
             else
                 # --- Populate the Fireplan ---
+                console.log '>> Intraday Firemaking Plan: B ---'
                 @set('firePlan', {
                         makeFire: false
                         msg: 'Fireplace Still Warm'
                         startTime: null
                         woodCount: null})
-                @set('countdownEndDateime', @_generateEndDatetime_JSON_IncBySeconds(5))
 
-        # --- Trigger firemaking plan >> Only if previously-made-fire is not declared --
-        else if @previouslyMadeFire_Hour is null
+        # --- Trigger firemaking plan >> Plan-Type: Cold-Starter Plan
+        else if (@previouslyMadeFire_Datetime is null) or (timeNow > (@_getPreviouslyMadeFireDatetimeAsValue() + twentytwoHours))
             console.log '>> Cold-start Firemaking Plan ---'
             extraFirewood = 1 # Due to cold-start (i.e. unknown gap between firemaking/heating)
             @planFireMaking(1)
@@ -126,7 +130,7 @@ DashboardController = Ember.Controller.extend (
         # Note! First hour of the falling edge determines the hour-to-commence-heating
         bst = BinarySearchTree.create()
         hourToStartHeating = {key: null, value: null}
-        for f in @temperatureHourSeries
+        for f in @hourlyForecastedTemperatures
             if bst.size() < hourlyForecastsSize
                 if f.temperature <= qualifierTemperature
                     bst.add(f.temperature, parseInt(f.localtime,10))
@@ -144,7 +148,7 @@ DashboardController = Ember.Controller.extend (
         if hourToStartHeating.key != null and hourToStartHeating.value != null
             # --- Get the lowest temperature in hourly forecasts ---
             lowestTemperatureInRange = hourToStartHeating.key
-            for f in @temperatureHourSeries
+            for f in @hourlyForecastedTemperatures
                 if f.temperature < lowestTemperatureInRange
                     lowestTemperatureInRange = f.temperature
 

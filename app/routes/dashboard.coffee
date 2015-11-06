@@ -5433,7 +5433,7 @@ DashboardRoute = Ember.Route.extend (
         # Present And Forecasted Temperature Series
         # Extract: Temperature/HourTimestamp Paired Dataset
         # -------------------------------------------------
-        controller.set('temperatureHourSeries', @_etlTemperatureSeriesFromWeatherData(model))
+        controller.set('hourlyForecastedTemperatures', @_etlTemperatureSeriesFromWeatherData(model))
 
         # ----------------------------------------
         # Weather Data Highlights
