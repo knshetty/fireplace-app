@@ -15,7 +15,6 @@ DatetimePickerComponent = Ember.Component.extend(
 
         Ember.$('#datetimepickerInput').datetimepicker(
             format: "hh - dd/mm/yyyy"
-            showMeridian: true
             autoclose: true
             todayBtn: true
             startView: 'day'
