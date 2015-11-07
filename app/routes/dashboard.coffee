@@ -5435,38 +5435,30 @@ DashboardRoute = Ember.Route.extend (
         # -------------------------------------------------
         controller.set('hourlyForecastedTemperatures', @_etlTemperatureSeriesFromWeatherData(model))
 
-        # ----------------------------------------
-        # Weather Data Highlights
-        # Extract: Weather Data Highlights Dataset
-        # City, Country, Humidity, Sunrise, Sunset
-        # ----------------------------------------
+        # ------------------------
+        # Sun Information
+        # Extract: Sunrise, Sunset
+        # ------------------------
         # --- Get Sunrise/Sunset timestamp ---
         timestampParts = model.sun.sunrise.localtime.split('T')
         sunriseTimeRaw = timestampParts[1].substring(0,4)
         sunriseHour = sunriseTimeRaw.substring(0,2)
         sunriseMinutes = sunriseTimeRaw.substring(2,4)
+        controller.set('sunrise', "#{sunriseHour}:#{sunriseMinutes}")
         # --- Get Sunset timestamp ---
         timestampParts = model.sun.sunset.localtime.split('T')
         sunsetTimeRaw = timestampParts[1].substring(0,4)
         sunsetHour = sunsetTimeRaw.substring(0,2)
         sunsetMinutes = sunsetTimeRaw.substring(2,4)
+        controller.set('sunset', "#{sunsetHour}:#{sunsetMinutes}")
+
+        # ---------------------------------------------
+        # Today's Date
+        # Extract: Current system datetime
+        # ---------------------------------------------
         # --- Get current date ---
         now = "#{new Date()}"
-
-        # --- Set the selection items for the list-group ---
-        highlights = Ember.A([
-            Ember.Object.create({ title: now.substring(0,15), sub: "#{model.current.city}, #{model.current.country}", badge: "#{model.current.temperature} °C" })
-            Ember.Object.create({ title: 'Humidity', sub: '', badge: model.current.humidity })
-            Ember.Object.create({ title: 'Sunrise', sub: '', badge: "#{sunriseHour}.#{sunriseMinutes}" })
-            Ember.Object.create({ title: 'Sunset', sub: '', badge: "#{sunsetHour}.#{sunsetMinutes}" })
-          ])
-        controller.set('weatherHighlights', highlights)
-
-        # --- Flag Humidity is high by selecting the list-group item ---
-        if parseFloat(model.current.humidity) > 79.5
-            controller.set('selectedWeatherHighlights', highlights[1])
-        else
-            controller.set('selectedWeatherHighlights', null)
+        controller.set('todayDate', now.substring(0,15))
 
         # Now, load the extracted/transformed weather-dataset as model
         controller.set('model', model)

@@ -11,7 +11,15 @@ DashboardController = Ember.Controller.extend (
 
     countdownEndDateime: null
 
+    theRoute: null
+
     hourlyForecastedTemperatures: []
+
+    sunrise: null
+
+    sunset: null
+
+    todayDate: null
 
     # ------------------------------
     # --- Declare Event Handlers ---
