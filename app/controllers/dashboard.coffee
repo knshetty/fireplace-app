@@ -21,11 +21,14 @@ DashboardController = Ember.Controller.extend (
 
     todayDate: null
 
+    loadingPlan: false
+
     # ------------------------------
     # --- Declare Event Handlers ---
     # ------------------------------
     actions:
         updateModel: ->
+            @set('loadingPlan', true)
             @get('theRoute').send('updateModel')
 
         showPlan: ->
@@ -118,6 +121,12 @@ DashboardController = Ember.Controller.extend (
             console.log '>> Cold-start Firemaking Plan ---'
             extraFirewood = 1 # Due to cold-start (i.e. unknown gap between firemaking/heating)
             @planFireMaking(1)
+
+        # --- Induce an fake delay for improved UX ---
+        Ember.run.later( ( ->
+            @set('loadingPlan', false)
+        ).bind(@), 1000)
+
 
     planFireMaking: (extraFirewood)->
         # ------------------------

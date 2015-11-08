@@ -83,55 +83,61 @@
                              placeholder="Last Fire? (Optional)"}}
                     </div>
 
-                    {{#unless planEntry}}
-                        <blockquote class="pull-left">
-                            <p>
-                                <font size="8">No Plans</font>
-                            </p>
-                        </blockquote>
-                    {{/unless}}
-
-                    {{#if firePlan.makeFire}}
-                        <blockquote class="pull-left">
-
-                            <p>
-                                <font size="8" color="#e17d5a">{{firePlan.msg}}</font>
-                                <!--
-                                {{countdown-timer
-                                    endDate=countdownEndDateime
-                                    onCountdownEnded=(action 'clearPlan')}}
-                                -->
-                            </p>
-
-                            {{#if maxFireboxLoad}}
+                    {{#if loadingPlan}}
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success" style="width: 89%"></div>
+                        </div>
+                    {{else}}
+                        {{#unless planEntry}}
+                            <blockquote class="pull-left">
                                 <p>
-                                    <font size="8">Firebox Full</font> logs
+                                    <font size="8">No Plans</font>
                                 </p>
-                            {{else}}
+                            </blockquote>
+                        {{/unless}}
+
+                        {{#if firePlan.makeFire}}
+                            <blockquote class="pull-left">
+
                                 <p>
-                                    <font size="8">{{firePlan.woodCount}}</font> logs
+                                    <font size="8" color="#e17d5a">{{firePlan.msg}}</font>
+                                    <!--
+                                    {{countdown-timer
+                                        endDate=countdownEndDateime
+                                        onCountdownEnded=(action 'clearPlan')}}
+                                    -->
                                 </p>
-                            {{/if}}
 
-                            <p>
-                                <font size="6">{{firePlan.startTime}}</font> start
-                            </p>
+                                {{#if maxFireboxLoad}}
+                                    <p>
+                                        <font size="8">Firebox Full</font> logs
+                                    </p>
+                                {{else}}
+                                    <p>
+                                        <font size="8">{{firePlan.woodCount}}</font> logs
+                                    </p>
+                                {{/if}}
 
-                        </blockquote>
-                    {{else if planEntry}}
-                        <blockquote class="pull-left">
+                                <p>
+                                    <font size="6">{{firePlan.startTime}}</font> start
+                                </p>
 
-                            <p>
-                                <font size="8">{{firePlan.msg}}</font>
-                            </p>
+                            </blockquote>
+                        {{else if planEntry}}
+                            <blockquote class="pull-left">
 
-                            <!-- p>
-                                {{countdown-timer
-                                    endDate=countdownEndDateime
-                                    onCountdownEnded=(action 'clearPlan')}}
-                            </p -->
+                                <p>
+                                    <font size="8">{{firePlan.msg}}</font>
+                                </p>
 
-                        </blockquote>
+                                <!-- p>
+                                    {{countdown-timer
+                                        endDate=countdownEndDateime
+                                        onCountdownEnded=(action 'clearPlan')}}
+                                </p -->
+
+                            </blockquote>
+                        {{/if}}
                     {{/if}}
 
                 </div>

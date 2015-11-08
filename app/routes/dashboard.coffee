@@ -5401,8 +5401,8 @@ DashboardRoute = Ember.Route.extend (
 
     model: ->
         # Weather data aquisition procedure/configuration
-        # For Simulation mode to work set to >> true
-        # For RESTful-Resource to work set to >> false
+        # For Simulation mode >> true
+        # For RESTful-Resource mode >> false
         simulationMode = false # Default: false
 
         # City of interest >> Tampere >> 634963
@@ -5414,10 +5414,11 @@ DashboardRoute = Ember.Route.extend (
         context = @
         if simulationMode
             requestFMIWeatherData_mockupRESTCall_Async(tampere_LocationId).then( (data) ->
+                console.log '---- Obtained data from local JSON object >> Simulation Mode ----'
                 context._transformWeatherData(data, tampere_LocationId, weatherStationId)
             )
         else
-            # Note! The below full url of FMI weather data RESTful API:
+            # Note! The below is the complete URL for making a RESTful GET request on FMI weather data RESTful API:
             # http://m.fmi.fi/mobile/interfaces/weatherdata.php?locations=634963&l=en&version=1.1.13&preventcache=1444790055911
             url = "http://m.fmi.fi/mobile/interfaces/weatherdata.php?locations=#{tampere_LocationId}&callback=?"
             Ember.$.getJSON(url).then( (data) ->
