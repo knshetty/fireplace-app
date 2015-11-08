@@ -154,9 +154,10 @@ DashboardController = Ember.Controller.extend (
                 else if bst.size() > 0
                     bst.remove(bst.root.id, bst.root.key)
             else
-                if bst.size() is hourlyForecastsSize
-                    hourToStartHeating = {key: bst.root.key, value: bst.root.value}
                 break
+
+        if bst.size() is hourlyForecastsSize
+            hourToStartHeating = {key: bst.root.key, value: bst.root.value}
 
         # --------------------------------------------------------------------------
         # Generate Fire-making plan: When to makefire & quantity of firewood to burn
