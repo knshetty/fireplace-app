@@ -3,148 +3,151 @@
     <h1>Firemaking <small> Planner</small></h1>
 
     <div class="row">
-        <div class="col-md-7">
-            <div class="panel panel-default">
 
-                <div class="panel-heading">
-                    <div class="row">
+      <div class="col-md-5">
+          <div class="panel panel-default">
 
-                        <div class="col-md-8">
-                            <h4>{{model.current.city}}, {{model.current.country}}</h4>
-                        </div>
+              <div class="panel-heading">
+                  <div class="row">
 
-                        <div class="col-md-4">
-                            <h4>{{todayDate}}</h4>
-                            <!--h4>{{model.current.temperature}}°C</h4 -->
-                        </div>
+                      <div class="col-md-10">
+                          <h4>Fire Prompt</h4>
+                      </div>
 
-                    </div>
-                </div>
+                      <div class="col-md-1">
+                          <a  class="btn btn-primary btn-sm"
+                              {{action "updateModel"}}>
+                              <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+                          </a>
+                      </div>
 
-                <div class="panel-body">
-                    {{clock-n-outdoortemperatureforecast
-                        weatherDataset=model
-                        onUpdateWeather=(action 'updateModel')
-                        fireMakingPlan=firePlan}}
-                </div>
+                  </div>
+              </div>
 
-                <div class="panel-footer">
-                    <div class="input-group">
+              <div class="panel-body">
 
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-tint" aria-hidden="true">
-                                <h4>{{model.current.humidity}}%</h4>
-                            </span>
-                        </span>
+                  <div class="form-group">
+                      {{datetime-picker
+                           valueholder=previouslyMadeFire_Datetime
+                           placeholder="Last Made Fire On - Date/Time? (Optional)"}}
+                  </div>
 
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-arrow-up" aria-hidden="true">
-                                <h4>{{sunrise}}</h4>
-                            </span>
-                        </span>
+                  {{#if loadingPlan}}
+                      <div class="progress">
+                          <div class="progress-bar progress-bar-success" style="width: 89%"></div>
+                      </div>
+                  {{else}}
+                      {{#unless planEntry}}
+                          <blockquote class="pull-left">
+                              <p>
+                                  <font size="8">No Plans</font>
+                              </p>
+                          </blockquote>
+                      {{/unless}}
 
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-arrow-down" aria-hidden="true">
-                                <h4>{{sunset}}</h4>
-                            </span>
-                        </span>
+                      {{#if firePlan.makeFire}}
+                          <blockquote class="pull-left">
 
-                    </div>
-                </div>
+                              <p>
+                                  <font size="8" color="#e17d5a">{{firePlan.msg}}</font>
+                                  <!--
+                                  {{countdown-timer
+                                      endDate=countdownEndDateime
+                                      onCountdownEnded=(action 'clearPlan')}}
+                                  -->
+                              </p>
 
-            </div>
-        </div>
+                              {{#if maxFireboxLoad}}
+                                  <p>
+                                      <font size="8">Firebox Full</font> logs
+                                  </p>
+                              {{else}}
+                                  <p>
+                                      <font size="8">{{firePlan.woodCount}}</font> logs
+                                  </p>
+                              {{/if}}
 
-        <div class="col-md-5">
-            <div class="panel panel-default">
+                              <p>
+                                  <font size="6">{{firePlan.startTime}}</font> start
+                              </p>
 
-                <div class="panel-heading">
-                    <div class="row">
+                          </blockquote>
+                      {{else if planEntry}}
+                          <blockquote class="pull-left">
 
-                        <div class="col-md-10">
-                            <h4>Fire Log</h4>
-                        </div>
+                              <p>
+                                  <font size="8">{{firePlan.msg}}</font>
+                              </p>
 
-                        <div class="col-md-1">
-                            <a  class="btn btn-primary btn-sm"
-                                {{action "updateModel"}}>
-                                <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
-                            </a>
-                        </div>
+                              <!-- p>
+                                  {{countdown-timer
+                                      endDate=countdownEndDateime
+                                      onCountdownEnded=(action 'clearPlan')}}
+                              </p -->
 
-                    </div>
-                </div>
+                          </blockquote>
+                      {{/if}}
+                  {{/if}}
 
-                <div class="panel-body">
+              </div>
 
-                    <div class="form-group">
-                        {{datetime-picker
-                             valueholder=previouslyMadeFire_Datetime
-                             placeholder="Last Fire? (Optional)"}}
-                    </div>
+          </div>
 
-                    {{#if loadingPlan}}
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-success" style="width: 89%"></div>
-                        </div>
-                    {{else}}
-                        {{#unless planEntry}}
-                            <blockquote class="pull-left">
-                                <p>
-                                    <font size="8">No Plans</font>
-                                </p>
-                            </blockquote>
-                        {{/unless}}
+      </div>
 
-                        {{#if firePlan.makeFire}}
-                            <blockquote class="pull-left">
+      <div class="col-md-7">
+          <div class="panel panel-default">
 
-                                <p>
-                                    <font size="8" color="#e17d5a">{{firePlan.msg}}</font>
-                                    <!--
-                                    {{countdown-timer
-                                        endDate=countdownEndDateime
-                                        onCountdownEnded=(action 'clearPlan')}}
-                                    -->
-                                </p>
+              <div class="panel-heading">
+                  <div class="row">
 
-                                {{#if maxFireboxLoad}}
-                                    <p>
-                                        <font size="8">Firebox Full</font> logs
-                                    </p>
-                                {{else}}
-                                    <p>
-                                        <font size="8">{{firePlan.woodCount}}</font> logs
-                                    </p>
-                                {{/if}}
+                      <div class="col-md-8">
+                          <h4>{{model.current.city}}, {{model.current.country}}</h4>
+                      </div>
 
-                                <p>
-                                    <font size="6">{{firePlan.startTime}}</font> start
-                                </p>
+                      <div class="col-md-4">
+                          <h4>{{todayDate}}</h4>
+                          <!--h4>{{model.current.temperature}}°C</h4 -->
+                      </div>
 
-                            </blockquote>
-                        {{else if planEntry}}
-                            <blockquote class="pull-left">
+                  </div>
+              </div>
 
-                                <p>
-                                    <font size="8">{{firePlan.msg}}</font>
-                                </p>
+              <div class="panel-body">
+                  {{clock-n-outdoortemperatureforecast
+                      weatherDataset=model
+                      onUpdateWeather=(action 'updateModel')
+                      fireMakingPlan=firePlan}}
+              </div>
 
-                                <!-- p>
-                                    {{countdown-timer
-                                        endDate=countdownEndDateime
-                                        onCountdownEnded=(action 'clearPlan')}}
-                                </p -->
+              <div class="panel-footer">
+                  <div class="input-group">
 
-                            </blockquote>
-                        {{/if}}
-                    {{/if}}
+                      <span class="input-group-addon">
+                          <span class="glyphicon glyphicon-tint" aria-hidden="true">
+                              <h4>{{model.current.humidity}}%</h4>
+                          </span>
+                      </span>
 
-                </div>
+                      <span class="input-group-addon">
+                          <span class="glyphicon glyphicon-arrow-up" aria-hidden="true">
+                              <h4>{{sunrise}}</h4>
+                          </span>
+                      </span>
 
-            </div>
+                      <span class="input-group-addon">
+                          <span class="glyphicon glyphicon-arrow-down" aria-hidden="true">
+                              <h4>{{sunset}}</h4>
+                          </span>
+                      </span>
 
-        </div>
+                  </div>
+              </div>
+
+          </div>
+      </div>
+
+
     </div>
 </div>
 
