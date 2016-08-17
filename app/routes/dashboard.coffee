@@ -5403,7 +5403,7 @@ DashboardRoute = Ember.Route.extend (
         # Weather data aquisition procedure/configuration
         # For Simulation mode >> true
         # For RESTful-Resource mode >> false
-        simulationMode = false # Default: false
+        simulationMode = false# Default: false
 
         # City of interest >> Tampere >> 634963
         tampere_LocationId = 634963
@@ -5535,7 +5535,7 @@ DashboardRoute = Ember.Route.extend (
         # Hourly Weather Forecast Info
         # -----------------------------
         # --- Get hourly weather forcast info, max 11 hours in the future ---
-        tampere_HourlyWeatherForecasts_Max11Hours = data.forecasts[0].forecast[1..11]
+        tampere_HourlyWeatherForecasts_Max11Hours = data.forecasts[0].forecast[2..12]
         for forecast in tampere_HourlyWeatherForecasts_Max11Hours
             forecastOnTheHour = {}
             forecastOnTheHour.geoid = forecast.geoid
