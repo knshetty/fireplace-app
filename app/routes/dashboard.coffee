@@ -5535,7 +5535,7 @@ DashboardRoute = Ember.Route.extend (
         # Hourly Weather Forecast Info
         # -----------------------------
         # --- Get hourly weather forcast info, max 11 hours in the future ---
-        tampere_HourlyWeatherForecasts_Max11Hours = data.forecasts[0].forecast[0..10]
+        tampere_HourlyWeatherForecasts_Max11Hours = data.forecasts[0].forecast[1..11]
         for forecast in tampere_HourlyWeatherForecasts_Max11Hours
             forecastOnTheHour = {}
             forecastOnTheHour.geoid = forecast.geoid
