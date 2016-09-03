@@ -5,7 +5,6 @@ Router = Ember.Router.extend
   location: config.locationType
 
 Router.map ->
-
   @route 'dashboard'
   @route 'weather'
   @route 'settings'

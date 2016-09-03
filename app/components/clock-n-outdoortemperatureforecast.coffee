@@ -103,8 +103,8 @@ ClockNOutdoortemperatureforecastComponent = Ember.Component.extend (
     futureRing.transform('r' + ((hours*30) - offset_FutureRing + (minutes/2)) + futureRingCenterPosition)
 
     # --- Update all Temperatures ---
-    # Update temperature every 30mins, starting at 3mins past the hour
-    if (minutes == 3 and seconds == 0) or (minutes == 33 and seconds == 0)
+    # Update temperature every 30mins, starting at 5mins past the hour
+    if (minutes == 5 and seconds == 0) or (minutes == 35 and seconds == 0)
         @get('onUpdateWeather')()
     ###
     if seconds == 1
