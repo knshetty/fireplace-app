@@ -43,7 +43,7 @@ module.exports = function(environment) {
 
   if (environment === 'production') {
     ENV.baseURL = '/fireplace-app/';
-    ENV.locationType = 'auto';
+    ENV.locationType = 'hash';
   }
 
   return ENV;
